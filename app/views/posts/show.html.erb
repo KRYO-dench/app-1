@@ -1,0 +1,28 @@
+<h1><%= @post.title %></h1>
+<p><%= @post.body %></p>
+<hr>
+<%= link_to "Редагувати", edit_post_path(@post), :class => "btn btn-warning"%>
+<%# <%= link_to "Видалити статтю", post_path(@post), method: :delete, data: {confirm: "Гарненько подумай!!! Видалити остаточно?"}, :class => "btn btn-danger" %>
+<%# <%= button_to "Видалити статтю", post_path(@post), method: :delete, data: {confirm: "Гарненько подумай!!! Видалити остаточно?"}, :class => "btn btn-danger" %>
+<%= link_to "Видалити статтю", post_path(@post), data: {turbo_method: :delete, turbo_confirm: "Гарненько подумай!!! Видалити остаточно?"}, :class => "btn btn-danger" %>
+<hr>
+<h2>Всі коментарі</h2>
+<% @post.comments.each do |comment| %>
+  <div class="alert alert-light">
+    <p><strong><%= comment.username %></strong>: <%= comment.body %></p>
+  </div>
+<% end %>
+<hr>
+<h2> Новий коментар </h2>
+<%= form_for([@post, @post.comments.build]) do |f| %>
+    <p>Користувач<br> 
+    <%= f.text_field(:username, {:class => 'form-control'}) %>
+    </p>
+    <p>Текст коментаря<br> 
+    <%= f.text_area(:body, {:class => 'form-control'}) %>
+    </p>
+    <p> 
+    <%= f.submit("Додати коментар", {:class => 'btn btn-warning'}) %>
+    </p>
+<% end %>
+
